@@ -1,0 +1,49 @@
+server:
+  port: 8001
+
+spring: 
+    application:
+      name: microservicecloud-dept
+    datasource:
+        name: test
+        url: jdbc:mysql://localhost:3306/clouddb01?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+        username: root
+        password: root
+#        url: jdbc:mysql://192.168.100.101:3306/ysx_order?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+#        username: root
+#        password: ysxrootPassword01!
+        # 使用druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        druid:
+          filters: stat
+          max-active: 20
+          initial-size: 1
+          max-wait: 60000
+          min-idle: 1
+          time-between-eviction-runs-millis: 60000 
+          min-evictable-idle-time-millis: 300000
+          validation-query: select 'x'
+          test-while-idle: true
+          test-on-borrow: false
+          test-on-return: false
+          pool-prepared-statements: true
+          max-open-prepared-statements: 20
+          
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+  type-aliases-package: com.zyy.springcloud.entities
+  
+eureka:
+  client: #客户端注册进Eureka服务列表
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+  instance:
+    instance-id: microservicecloud-dept8001-hystrix #默认服务名称
+    prefer-ip-address: true                 #访问路径显示IP地址
+
+info:
+  app.name: zyy-microservicecloud
+  company.name: www.yunshuxie.com
+  build.artfactId: $project.artifactId$
+  build.version: $project.version$
